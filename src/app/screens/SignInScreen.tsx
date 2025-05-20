@@ -1,8 +1,9 @@
-// screens/SignInScreen.tsx
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ThemedText } from '@/components/ThemedText';
+
 
 type RootStackParamList = {
   SignIn: undefined;
@@ -20,13 +21,17 @@ export default function SignInScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bienvenue</Text>
-      <Button title="Se connecter" onPress={handleLogin} />
+      <ThemedText onPress={handleLogin}>
+        Sign In
+      </ThemedText>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  title: { fontSize: 24, marginBottom: 20 },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
