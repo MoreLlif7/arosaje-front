@@ -14,7 +14,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 type RootStackParamList = {
   SignIn: undefined;
   Accueil: undefined;
-  Inscription: undefined; // future route
+  Inscription: undefined;
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'SignIn'>;
@@ -51,7 +51,7 @@ export default function SignInScreen() {
           placeholderTextColor="#666"
         />
         <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
-          <Text style={styles.loginButtonText}>Se connecter</Text>
+          <Text style={styles.loginButtonText}>Connection</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleRegister}>
           <Text style={styles.registerLink}>Inscription</Text>
@@ -90,19 +90,20 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 10,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#617973',
   },
   input: {
     width: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: '#a0d4af',
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: '#ccc',
+    textAlign: 'center'
   },
   loginButton: {
     marginTop: 10,
-    backgroundColor: '#3a7bd5',
+    backgroundColor: '#a0d4af',
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 8,
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
   },
   registerLink: {
     marginTop: 10,
-    color: '#007bff',
+    color: 'black',
     textDecorationLine: 'underline',
   },
 });
