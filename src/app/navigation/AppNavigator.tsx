@@ -6,6 +6,7 @@ import { RootStackParamList } from '../types/navigation';
 // Import des écrans
 import SignInScreen from '../auth/SignInScreen';
 import BottomTabs from './BottomTabs';
+import ChatDetailScreen from '../chat/ChatDetailScreen';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -16,6 +17,7 @@ export default function AppNavigator() {
       <Stack.Navigator initialRouteName="SignIn" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="MainApp" component={BottomTabs} />
+        <Stack.Screen name="ChatDetail" component={ChatDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
