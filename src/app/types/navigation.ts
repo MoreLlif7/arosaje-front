@@ -1,6 +1,6 @@
 export type RootStackParamList = {
   SignIn: undefined;
-  Accueil: undefined;
+  MainApp: undefined;
   MesPlantes: undefined;
   AjouterPlante: undefined;
   DetailPlante: { planteId: string };

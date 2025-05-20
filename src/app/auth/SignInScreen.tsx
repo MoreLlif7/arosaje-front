@@ -10,12 +10,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-
-type RootStackParamList = {
-  SignIn: undefined;
-  Accueil: undefined;
-  Inscription: undefined;
-};
+import type { RootStackParamList } from '../types/navigation'; 
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'SignIn'>;
 
@@ -23,11 +18,12 @@ export default function SignInScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   const handleLogin = () => {
-    navigation.navigate('Accueil');
+    // Navigue vers le Tab.Navigator (MainApp) qui contient Accueil
+    navigation.navigate('MainApp');
   };
 
   const handleRegister = () => {
-    // navigation.navigate('Inscription'); (future route)
+    // navigation.navigate('Inscription'); // à activer quand la route existera
   };
 
   return (
@@ -51,7 +47,7 @@ export default function SignInScreen() {
           placeholderTextColor="#666"
         />
         <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
-          <Text style={styles.loginButtonText}>Connection</Text>
+          <Text style={styles.loginButtonText}>Connexion</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleRegister}>
           <Text style={styles.registerLink}>Inscription</Text>
