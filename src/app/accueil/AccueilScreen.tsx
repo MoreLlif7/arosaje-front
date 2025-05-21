@@ -18,15 +18,15 @@ const IMAGE_HEIGHT = height * 0.33;
 const videos = [
   {
     id: "1",
-    title: "Plantes 1",
+    title: "C'est pas sorcier - ODYSSEE DES PLANTES",
     image: "https://img.youtube.com/vi/3EpWkLoJ68Q/hqdefault.jpg",
-    url: "https://www.youtube.com/watch?v=3EpWkLoJ68Q",
+    url: "https://www.youtube.com/watch?v=9wLnavgmVjs",
   },
   {
     id: "2",
-    title: "Plantes 2",
+    title: "Pas de saison pour les fleurs - C'est pas sorcier",
     image: "https://img.youtube.com/vi/NJkxrhKx5gI/hqdefault.jpg",
-    url: "https://www.youtube.com/watch?v=NJkxrhKx5gI",
+    url: "https://www.youtube.com/watch?v=8bC0oaYEFg4",
   },
 ];
 
@@ -69,7 +69,7 @@ export default function AccueilScreen() {
 
       {/* Section vidéos YouTube */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Vidéos plantes - C'est pas sorcier</Text>
+        <Text style={styles.sectionTitle}>Vidéos plantes</Text>
         <View style={styles.videosContainer}>
           {videos.map((video) => (
             <TouchableOpacity

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,22 +6,40 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../types/navigation';
-
-
-
-
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { RootStackParamList } from "../types/navigation";
 
 const { width } = Dimensions.get("window");
 
 export default function MesPlantesScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const [plantes, setPlantes] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Pour l'instant, pas de plantes, tableau vide
-  const plantes = [];
+  useEffect(() => {
+    fetch("http://192.168.85.239:8000/api/plants?page=1", {
+      headers: {
+        Accept: "application/ld+json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Erreur réseau");
+        return response.json();
+      })
+      .then((data) => {
+        setPlantes(data.member || []);
+        setError(null);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError("Impossible de charger les plantes");
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,37 +51,44 @@ export default function MesPlantesScreen() {
       {/* Boutons */}
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: "#808000" }]} 
+          style={[styles.button, { backgroundColor: "#808000" }]}
           onPress={() => navigation.navigate("DemandeGarde")}
         >
           <Text style={styles.buttonText}>Faire une demande de garde</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: "#86B883" }]} 
+          style={[styles.button, { backgroundColor: "#86B883" }]}
           onPress={() => navigation.navigate("AjouterPlante")}
         >
           <Text style={styles.buttonText}>Ajouter une plante</Text>
-          {/* texte blanc */}
         </TouchableOpacity>
       </View>
 
-      {/* Liste photos plantes (vide pour l'instant) */}
-      <FlatList
-        data={plantes}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={2}
-        columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.plantesList}
-        renderItem={() => (
-          <View style={styles.planteBox}>
-            {/* Ici mettra les photos des plantes */}
-          </View>
-        )}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>Aucune plante pour le moment.</Text>
-        }
-      />
+      {/* Contenu */}
+      {loading ? (
+        <ActivityIndicator size="large" color="#86B883" style={{ marginTop: 50 }} />
+      ) : error ? (
+        <Text style={styles.emptyText}>{error}</Text>
+      ) : (
+        <FlatList
+          data={plantes}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={2}
+          columnWrapperStyle={styles.row}
+          contentContainerStyle={styles.plantesList}
+          renderItem={({ item }) => (
+            <View style={styles.planteBox}>
+              <Text style={{ textAlign: "center", padding: 10 }}>
+                Plante ID : {item.api_id}
+              </Text>
+            </View>
+          )}
+          ListEmptyComponent={
+            <Text style={styles.emptyText}>Aucune plante pour le moment.</Text>
+          }
+        />
+      )}
     </SafeAreaView>
   );
 }
@@ -87,7 +112,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     paddingHorizontal: 20,
     paddingVertical: 20,
-    gap: 16, // espace entre les boutons (React Native >=0.71 supporte gap)
+    gap: 16,
   },
   button: {
     width: width * 0.9,
@@ -115,7 +140,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 5,
     borderRadius: 8,
-    // ici tu pourras mettre l'image de ta plante plus tard
+    justifyContent: "center",
+    alignItems: "center",
   },
   emptyText: {
     textAlign: "center",

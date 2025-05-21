@@ -1,7 +1,27 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator } from 'react-native';
 
 export default function EntretienScreen() {
+  const [advice, setAdvice] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('http://192.168.85.239:8000/api/advices/1', {
+      headers: {
+        Accept: 'application/ld+json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setAdvice(data.content); // adapte "content" si la clé est différente
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des conseils :', error);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Entretien</Text>
@@ -17,16 +37,21 @@ export default function EntretienScreen() {
         {/* Texte à droite */}
         <View style={styles.textContainer}>
           <Text style={styles.subtitle}>Identifiant</Text>
-          <Text style={styles.text}>#PLANT-2025-0421</Text>
+          <Text style={styles.text}>1</Text>
 
           <Text style={styles.subtitle}>Précautions</Text>
-          <Text style={styles.text}>• Évitez l'exposition directe au soleil.</Text>
-          <Text style={styles.text}>• Arrosez une fois par semaine.</Text>
-          <Text style={styles.text}>• Nettoyez les feuilles avec un chiffon doux.</Text>
+          {loading ? (
+            <ActivityIndicator size="small" color="#000" />
+          ) : advice ? (
+            advice.split('\n').map((line, index) => (
+              <Text key={index} style={styles.text}>• {line}</Text>
+            ))
+          ) : (
+            <Text style={styles.text}>Aucun conseil disponible.</Text>
+          )}
         </View>
       </View>
 
-      {/* Work in progress */}
       <Text style={styles.wip}>Work in progress... 🚧</Text>
     </ScrollView>
   );
