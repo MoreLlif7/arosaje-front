@@ -6,30 +6,46 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
+  ImageBackground,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width, height } = Dimensions.get('window');
 
+// Images de fond pour chaque plante (tu peux en ajouter d'autres ou remplacer les liens)
+const plantImages = [
+  'https://images.unsplash.com/photo-1501004318641-b39e6451bec6', // plante 1
+  'https://images.unsplash.com/photo-1524593110437-04b8f5a13e3d', // plante 2
+  'https://images.unsplash.com/photo-1587300003388-59208cc962cb', // plante 3
+];
+
 export default function GardeScreen() {
-  const prochainsEntretiens = [];
-  const gardesEnCours = [];
-  const anciennesGardes = [];
-  const entretiensPrecedents = [];
+  const fauxItem = (titre: string) => ({
+    title: titre,
+    image: plantImages[Math.floor(Math.random() * plantImages.length)],
+  });
+
+  const prochainsEntretiens = [fauxItem('Entretien A'), fauxItem('Entretien B')];
+  const gardesEnCours = [fauxItem('Garde 1'), fauxItem('Garde 2')];
+  const anciennesGardes = [fauxItem('Garde passée A'), fauxItem('Garde passée B')];
+  const entretiensPrecedents = [fauxItem('Entretien passé 1'), fauxItem('Entretien passé 2')];
 
   const renderEmptyBox = () => (
     <Text style={styles.emptyText}>Aucun élément pour le moment.</Text>
   );
 
   const renderBox = ({ item }: { item: any }) => (
-    <View style={styles.videoBox}>
-      {/* Affichage de plante à venir */}
-    </View>
+    <ImageBackground
+      source={{ uri: item.image }}
+      style={styles.videoBox}
+      imageStyle={styles.imageBackground}
+    >
+      <Text style={styles.boxTitle}>{item.title}</Text>
+    </ImageBackground>
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Titre principal */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Mes Gardes</Text>
       </View>
@@ -119,7 +135,7 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   section: {
-    height: height / 3,
+    height: height / 3.5,
     width: '100%',
   },
   sectionHeader: {
@@ -146,15 +162,22 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 12,
     overflow: 'hidden',
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 5,
-    elevation: 3,
     marginRight: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: 10,
+    backgroundColor: '#fff',
+  },
+  imageBackground: {
+    borderRadius: 12,
+    resizeMode: 'cover',
+  },
+  boxTitle: {
+    color: '#fff',
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    padding: 4,
+    borderRadius: 6,
+    alignSelf: 'flex-start',
   },
   emptyText: {
     fontStyle: 'italic',
