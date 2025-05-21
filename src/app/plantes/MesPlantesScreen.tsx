@@ -43,7 +43,7 @@ export default function MesPlantesScreen() {
           style={[styles.button, { backgroundColor: "#86B883" }]} 
           onPress={() => navigation.navigate("AjouterPlante")}
         >
-          <Text style={styles.buttonText}>Ajouter une plante</Text>{" "}
+          <Text style={styles.buttonText}>Ajouter une plante</Text>
           {/* texte blanc */}
         </TouchableOpacity>
       </View>

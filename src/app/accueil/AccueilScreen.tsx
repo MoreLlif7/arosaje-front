@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   videoBox: {
-    width: (width - 60) / 2, // 20 + 20 padding + 20 spacing
+    width: (width - 60) / 2, 
     borderRadius: 12,
     overflow: "hidden",
     backgroundColor: "#fff",
